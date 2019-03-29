@@ -1,0 +1,20 @@
+hduser@ubuntu:/usr/local/hadoop$ bin/hadoop jar contrib/streaming/hadoop-*streaming*.jar -mapper /home/hduser/mapper.py -reducer /home/hduser/reducer.py -input /user/hduser/gutenberg/* -output /user/hduser/gutenberg-output
+ additionalConfSpec_:null
+ null=@@@userJobConfProps_.get(stream.shipped.hadoopstreaming
+ packageJobJar: [/app/hadoop/tmp/hadoop-unjar54543/]
+ [] /tmp/streamjob54544.jar tmpDir=null
+ [...] INFO mapred.FileInputFormat: Total input paths to process : 7
+ [...] INFO streaming.StreamJob: getLocalDirs(): [/app/hadoop/tmp/mapred/local]
+ [...] INFO streaming.StreamJob: Running job: job_200803031615_0021
+ [...]
+ [...] INFO streaming.StreamJob:  map 0%  reduce 0%
+ [...] INFO streaming.StreamJob:  map 43%  reduce 0%
+ [...] INFO streaming.StreamJob:  map 86%  reduce 0%
+ [...] INFO streaming.StreamJob:  map 100%  reduce 0%
+ [...] INFO streaming.StreamJob:  map 100%  reduce 33%
+ [...] INFO streaming.StreamJob:  map 100%  reduce 70%
+ [...] INFO streaming.StreamJob:  map 100%  reduce 77%
+ [...] INFO streaming.StreamJob:  map 100%  reduce 100%
+ [...] INFO streaming.StreamJob: Job complete: job_200803031615_0021
+ [...] INFO streaming.StreamJob: Output: /user/hduser/gutenberg-output
+hduser@ubuntu:/usr/local/hadoop$
