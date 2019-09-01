@@ -1,0 +1,72 @@
+package org.apache.hadoop.mapred;
+
+import java.io.IOException;
+
+import org.apache.hadoop.classification.InterfaceAudience;
+import org.apache.hadoop.classification.InterfaceStability;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
+
+/**
+ * This class converts the input keys and values to their String forms by calling toString()
+ * method. This class to SequenceFileAsTextInputFormat class is as LineRecordReader
+ * class to TextInputFormat class.
+ * @deprecated Use 
+ * {@link org.apache.hadoop.mapreduce.lib.input.SequenceFileAsTextRecordReader}
+ * instead
+ */
+@Deprecated
+@InterfaceAudience.Public
+@InterfaceStability.Stable
+public class SequenceFileAsTextRecordReader
+  implements RecordReader<Text, Text> {
+  
+  private final SequenceFileRecordReader<WritableComparable, Writable>
+  sequenceFileRecordReader;
+
+  private WritableComparable innerKey;
+  private Writable innerValue;
+
+  public SequenceFileAsTextRecordReader(Configuration conf, FileSplit split)
+    throws IOException {
+    sequenceFileRecordReader =
+      new SequenceFileRecordReader<WritableComparable, Writable>(conf, split);
+    innerKey = sequenceFileRecordReader.createKey();
+    innerValue = sequenceFileRecordReader.createValue();
+  }
+
+  public Text createKey() {
+    return new Text();
+  }
+  
+  public Text createValue() {
+    return new Text();
+  }
+
+  /** Read key/value pair in a line. */
+  public synchronized boolean next(Text key, Text value) throws IOException {
+    Text tKey = key;
+    Text tValue = value;
+    if (!sequenceFileRecordReader.next(innerKey, innerValue)) {
+      return false;
+    }
+    tKey.set(innerKey.toString());
+    tValue.set(innerValue.toString());
+    return true;
+  }
+  
+  public float getProgress() throws IOException {
+    return sequenceFileRecordReader.getProgress();
+  }
+  
+  public synchronized long getPos() throws IOException {
+    return sequenceFileRecordReader.getPos();
+  }
+  
+  public synchronized void close() throws IOException {
+    sequenceFileRecordReader.close();
+  }
+  
+}
