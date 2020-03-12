@@ -1,0 +1,26 @@
+<body>
+<h2>org.apache.hadoop.mapred.lib.db Package</h2>
+<p>
+This package contains a library to read records from a database as an 
+input to a mapreduce job, and write the output records to the database.   
+</p>
+<p>
+The Database to access can be configured using the static methods in the 
+DBConfiguration class. Jobs reading input from a database should use 
+DBInputFormat#setInput() to set the configuration. And jobs writing 
+its output to the database should use DBOutputFormat#setOutput().
+</p>
+<p> 
+Tuples from/to the database are converted to/from Java objects using 
+DBWritable methods. Typically, for each table in the db, a class extending
+DBWritable is defined, which holds the fields of the tuple. The fields 
+of a record are read from the database using DBWritable#readFields(ResultSet),
+and written to the database using DBWritable#write(PreparedStatament 
+statement). 
+</p>
+<p>
+An example program using both DBInputFormat and DBOutputFormat can be found 
+at src/examples/org/apache/hadoop/examples/DBCountPageview.java.
+</p>
+</body>
+</html>
