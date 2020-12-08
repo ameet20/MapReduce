@@ -1,0 +1,8 @@
+<!-- 
+Before you can run these subtargets directly, you need 
+to call at top-level: ant deploy-contrib compile-core-test
+-->
+<project name="dynamic-priority" default="jar">
+  <import file="../build-contrib.xml"/>
+
+</project>
