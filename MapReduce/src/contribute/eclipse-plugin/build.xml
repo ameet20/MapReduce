@@ -1,0 +1,63 @@
+<project default="jar" name="eclipse-plugin">
+
+  <import file="../build-contrib.xml"/>
+
+  <path id="eclipse-sdk-jars">
+    <fileset dir="${eclipse.home}/plugins/">
+      <include name="org.eclipse.ui*.jar"/>
+      <include name="org.eclipse.jdt*.jar"/>
+      <include name="org.eclipse.core*.jar"/>
+      <include name="org.eclipse.equinox*.jar"/>
+      <include name="org.eclipse.debug*.jar"/>
+      <include name="org.eclipse.osgi*.jar"/>
+      <include name="org.eclipse.swt*.jar"/>
+      <include name="org.eclipse.jface*.jar"/>
+
+      <include name="org.eclipse.team.cvs.ssh2*.jar"/>
+      <include name="com.jcraft.jsch*.jar"/>
+    </fileset> 
+  </path>
+
+  <!-- Override classpath to include Eclipse SDK jars -->
+  <path id="classpath">
+    <pathelement location="${build.classes}"/>
+    <pathelement location="${hadoop.root}/build/classes"/>
+    <path refid="eclipse-sdk-jars"/>
+    <path refid="contrib-classpath"/>
+  </path>
+
+  <!-- Skip building if eclipse.home is unset. -->
+  <target name="check-contrib" unless="eclipse.home">
+    <property name="skip.contrib" value="yes"/>
+    <echo message="eclipse.home unset: skipping eclipse plugin"/>
+  </target>
+
+ <target name="compile" depends="init, ivy-retrieve-common" unless="skip.contrib">
+    <echo message="contrib: ${name} "/>
+    <javac
+     encoding="${build.encoding}"
+     srcdir="${src.dir}"
+     includes="**/*.java"
+     destdir="${build.classes}"
+     debug="${javac.debug}"
+     deprecation="${javac.deprecation}">
+     <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <!-- Override jar target to specify manifest -->
+  <target name="jar" depends="compile" unless="skip.contrib">
+    <mkdir dir="${build.dir}/lib"/>
+    <copy tofile="${build.dir}/lib/hadoop-common.jar">
+      <fileset dir="${hadoop.root}/build/ivy/lib/Hadoop/common" includes="hadoop-common-*.jar" excludes="hadoop-common-test-*.jar"/>
+    </copy> 
+    <copy file="${hadoop.root}/build/ivy/lib/Hadoop/common/commons-cli-${commons-cli.version}.jar"  todir="${build.dir}/lib" verbose="true"/>
+    <jar
+      jarfile="${build.dir}/hadoop-${version}-${name}.jar"
+      manifest="${root}/META-INF/MANIFEST.MF">
+      <fileset dir="${build.dir}" includes="classes/ lib/"/>
+      <fileset dir="${root}" includes="resources/ plugin.xml"/>
+    </jar>
+  </target>
+
+</project>
