@@ -1,0 +1,5 @@
+<project name="fairscheduler" default="jar">
+
+  <import file="../build-contrib.xml"/>
+
+</project>
