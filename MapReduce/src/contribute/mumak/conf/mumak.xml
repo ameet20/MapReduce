@@ -1,0 +1,24 @@
+<configuration>
+
+<property>
+  <name>mumak.scale.racklocal</name>
+  <value>1.5</value>
+  <description>Scaling factor for task attempt runtime of rack-local over
+  node-local</description>
+</property>
+
+<property>
+  <name>mumak.scale.rackremote</name>
+  <value>3.0</value>
+  <description>Scaling factor for task attempt runtime of rack-remote over
+  node-local</description>
+</property>
+
+<property>
+  <name>mumak.job-submission.policy</name>
+  <value>REPLAY</value>
+  <description>Job submission policy
+  </description>
+</property>
+
+</configuration>
